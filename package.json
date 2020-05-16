@@ -1,0 +1,23 @@
+{
+  "name": "fear-reason-mod-bot",
+  "description": "a discord bot to fear and reason mod rpg",
+  "version": "0.0.1",
+  "main": "bot.js",
+  "contributors": [
+    {
+      "name": "Bárbara Rossalli",
+      "email": "barbara.rossalli@gmai.com",
+      "web": ""
+    }
+  ],
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "dotenv": "^8.1.0"
+  },
+  "engines": {
+    "node": "8.11.2"
+  }
+}
