@@ -67,7 +67,7 @@ function rollFearOrReason(cmd, rollType) {
 
     for (let i = 0; i < params.diceQtd; i++) {
         let diceResult = rollDice(1, 6,  params.modifier);
-        response = response.toString() + ' [ '  + diceResult.toString() +  ' ] ';
+        response = response.toString() + ' [ '  + diceResult.toString() +  ' ]';
         conditions = verifyConditions(rollType, diceResult, params.atribute, conditions);
     }
     return getResponseWithConditions(conditions, response);
@@ -104,9 +104,9 @@ function verifyConditions(rollType, diceResult, atribute, conditions) {
 
 function getResponseWithConditions(conditions, response) {
     if(conditions.success) {
-        response = response + '. \nVocê conseguiu!!! ';
+        response = response + '\nVocê conseguiu!!! ';
     } else {
-        response = response + '. \nVocê não conseguiu x.x';
+        response = response + '\nVocê não conseguiu x.x';
     }
 
     if(conditions.critic) {
@@ -129,12 +129,12 @@ function insanity(cmd) {
     }
     let response = 'Seu resultado foi: ';
     let diceResult = rollDice(1, 6);
-    response = response + diceResult.toString() + '.';
+    response = response + diceResult.toString() + '';
     if(diceResult <= insanity ) {
         let newInsanity = parseInt(insanity) + parseInt(1);
         response = response + '\nVocê foi afetado e adquiriu um novo ponto de insanidade: ' + newInsanity;
         if(newInsanity >= TEMP_INSANITY && newInsanity <INSANITY) {
-            response = response + '\n Além disso está emocionalmente abalado: ' + getTempInsanity();
+            response = response + '\nAlém disso está emocionalmente abalado: ' + getTempInsanity();
         }
 
         if(newInsanity >= INSANITY) {
@@ -160,7 +160,7 @@ function control() {
 function damage(cmd) {
     let actualDamage = cmd[1];
     let diceResult = rollDice(1, 6)
-    let response = 'Seu resultado foi: ' + diceResult + '.\n';
+    let response = 'Seu resultado foi: ' + diceResult + '\n';
     if(diceResult > actualDamage) {
         let newDamage = parseInt(diceResult) + parseInt(1);
         return response +  "Você se feriu. Seu dano atual é: " +  newDamage;
@@ -222,7 +222,7 @@ function getTempInsanity() {
           return "Você tenta se ferir."
           break;
       case 6:
-          return "Você tenta ferir um aliadoboas."
+          return "Você tenta ferir um aliado."
           break;
       case 7:
           return "Você caiu no chão em posição fetal."
