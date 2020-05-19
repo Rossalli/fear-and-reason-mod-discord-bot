@@ -1,7 +1,7 @@
 {
   "name": "fear-reason-mod-bot",
   "description": "a discord bot to fear and reason mod rpg",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "bot.js",
   "contributors": [
     {
