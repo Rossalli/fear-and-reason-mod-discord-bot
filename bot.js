@@ -1,33 +1,33 @@
-require('dotenv').config();
-const Discord = require('discord.js');
+require("dotenv").config();
+const Discord = require("discord.js");
 const client = new Discord.Client();
 const rollType = {
-    FEAR: '!fear',
-    REASON: '!reason'
+    FEAR: "!fear",
+    REASON: "!reason"
 }
 const TEMP_INSANITY = 3;
 const INSANITY = 6;
 
-client.once('ready', () => {
-    console.log('Fear&Reason Mod Bot Ready!');
+client.once("ready", () => {
+    console.log("Fear&Reason Mod Bot Ready!");
 });
 
 // Event listener when a user sends a message in the chat.
-client.on('message', message => {
-    let cmd = message.content.split(' ');
+client.on("message", message => {
+    let cmd = message.content.split(" ");
     let action = cmd[0];
     switch(action) {
-            case '!fear': //!fear nd6 atr ?d
+            case "!fear": //!fear nd6 atr ?d
                 return message.channel.send(fear(cmd));
-            case '!reason':  //!reason nd6 atr ?d
+            case "!reason":  //!reason nd6 atr ?d
                 return message.channel.send(reason(cmd));
-            case '!insanity':  //!insanity ins
+            case "!insanity":  //!insanity ins
                 return message.channel.send(insanity(cmd));
-            case '!control':  //!control
+            case "!control":  //!control
                 return message.channel.send(control(cmd));
-            case '!damage':  //!damage d
+            case "!damage":  //!damage d
                 return message.channel.send(damage(cmd));
-            case '!sos':  //!sos a
+            case "!sos":  //!sos a
                 return message.channel.send(sos(cmd));
     }
 });
@@ -41,11 +41,11 @@ function getRandomIntInclusive(min, max) {
 }
 
 function fear(cmd) {
-    return rollFearOrReason(cmd, rollType.FEAR)
+    return rollFearOrReason(cmd, rollType.FEAR);
 }
 
 function reason(cmd) {
-  return  rollFearOrReason(cmd, rollType.REASON)
+  return  rollFearOrReason(cmd, rollType.REASON);
 }
 
 function rollFearOrReason(cmd, rollType) {
@@ -59,7 +59,7 @@ function rollFearOrReason(cmd, rollType) {
         return "Por favor informe seu atributo!";
     }
 
-    let response = 'Seu resultado foi: ';
+    let response = "Seu resultado foi: ";
     let conditions = {
         success: false,
         critic: false
@@ -67,7 +67,7 @@ function rollFearOrReason(cmd, rollType) {
 
     for (let i = 0; i < params.diceQtd; i++) {
         let diceResult = rollDice(1, 6,  params.modifier);
-        response = response.toString() + ' [ '  + diceResult.toString() +  ' ]';
+        response = response.toString() + " [ "  + diceResult.toString() +  " ]";
         conditions = verifyConditions(rollType, diceResult, params.atribute, conditions);
     }
     return getResponseWithConditions(conditions, response);
@@ -80,19 +80,19 @@ function rollDice(min, max, modifier) {
 
 function verifyConditions(rollType, diceResult, atribute, conditions) {
 
-    if (diceResult === atribute && !conditions.critic) {
+    if (parseInt(diceResult) === parseInt(atribute)) {
         conditions.critic = true;
     }
 
     if(!conditions.success) {
         switch (rollType) {
 
-            case '!fear':
+            case "!fear":
                 if(diceResult >= atribute) {
                     conditions.success = true;
                 }
                 break;
-            case '!reason':
+            case "!reason":
                 if(parseInt(diceResult) <= parseInt(atribute)) {
                     conditions.success = true;
                 }
@@ -104,19 +104,19 @@ function verifyConditions(rollType, diceResult, atribute, conditions) {
 
 function getResponseWithConditions(conditions, response) {
     if(conditions.success) {
-        response = response + '\nVocê conseguiu!!! ';
+        response = response + "\nVocê conseguiu!!! ";
     } else {
-        response = response + '\nVocê não conseguiu x.x';
+        response = response + "\nVocê não conseguiu x.x";
     }
 
     if(conditions.critic) {
-        response = response + '\nAlém disso, você atravessou o véu do nosso mundo e vislumbrou a verdade do oculto e desconhecido';
+        response = response + "\nAlém disso, você atravessou o véu do nosso mundo e vislumbrou a verdade do oculto e desconhecido";
     }
     return response;
 }
 
 function calcModifier(diceResult, modifier) {
-    if(modifier === 'd') {
+    if(modifier === "d") {
         diceResult = parseInt(diceResult) + parseInt(-1);
     }
     return diceResult;
@@ -127,19 +127,19 @@ function insanity(cmd) {
     if(insanity === undefined) {
         return "Por favor informe sua insanidade!";
     }
-    let response = 'Seu resultado foi: ';
+    let response = "Seu resultado foi: ";
     let diceResult = rollDice(1, 6);
-    response = response + diceResult.toString() + '';
+    response = response + diceResult.toString() + "";
     if(diceResult <= insanity ) {
         let newInsanity = parseInt(insanity) + parseInt(1);
-        response = response + '\nVocê foi afetado e adquiriu um novo ponto de insanidade: ' + newInsanity;
+        response = response + "\nVocê foi afetado e adquiriu um novo ponto de insanidade: " + newInsanity;
         if(newInsanity >= TEMP_INSANITY && newInsanity <INSANITY) {
-            response = response + '\nAlém disso está emocionalmente abalado: ' + getTempInsanity();
+            response = response + "\nAlém disso está emocionalmente abalado: " + getTempInsanity();
         }
 
         if(newInsanity >= INSANITY) {
             let permInsanity = getInsanity();
-            response = response + '\n Além disso você foi permanentemente afetado: ' + permInsanity;
+            response = response + "\n Além disso você foi permanentemente afetado: " + permInsanity;
         }
         return response;
     }
@@ -160,9 +160,9 @@ function control() {
 function damage(cmd) {
     let actualDamage = cmd[1];
     let diceResult = rollDice(1, 6)
-    let response = 'Seu resultado foi: ' + diceResult + '\n';
+    let response = "Seu resultado foi: " + diceResult + "\n";
     if(diceResult > actualDamage) {
-        let newDamage = parseInt(diceResult) + parseInt(1);
+        let newDamage = parseInt(actualDamage) + parseInt(1);
         return response +  "Você se feriu. Seu dano atual é: " +  newDamage;
     }
     return  response + "Vocẽ não sofreu nenhum dano.";
@@ -180,23 +180,23 @@ function sos(cmd) {
     }
 
     switch (action) {
-        case 'fear':
+        case "fear":
             return help.fearDesc;
             break;
-        case 'reason':
+        case "reason":
             return help.reasonDesc;
             break;
-        case 'insanity':
+        case "insanity":
             return help.insanityDesc;
             break;
-        case 'damage':
+        case "damage":
             return help.damageDesc;
             break;
-        case 'control':
+        case "control":
             return help.controlDesc;
             break;
         default:
-            return help.fearDesc + '\n\n\n' + help.reasonDesc + '\n\n\n' + help.insanityDesc + '\n\n\n' + help.controlDesc + '\n\n\n' + help.damageDesc;
+            return help.fearDesc + "\n\n\n" + help.reasonDesc + "\n\n\n" + help.insanityDesc + "\n\n\n" + help.controlDesc + "\n\n\n" + help.damageDesc;
             break;
     }
 }
